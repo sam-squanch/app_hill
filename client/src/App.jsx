@@ -4,17 +4,20 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import "./App.css";
 
+// ✅ Point to your live backend on Render
+const BACKEND_URL = "https://app-hill.onrender.com";
+
 export default function App() {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/activities")
+      .get(`${BACKEND_URL}/api/activities`)
       .then((res) => setActivities(res.data))
       .catch(() => setActivities([]));
   }, []);
 
-  // Grouped by activity type
+  // Group activities by type (Run, Ride, etc.)
   const activityTypes = [...new Set(activities.map((a) => a.type))];
 
   const series = activityTypes.map((type) => ({
@@ -24,7 +27,7 @@ export default function App() {
       .map((a) => ({
         name: a.name,
         y: +(a.distance / 1000).toFixed(2),
-        duration: (a.elapsed_time / 60).toFixed(1), // minutes
+        duration: (a.elapsed_time / 60).toFixed(1),
       })),
   }));
 
@@ -71,7 +74,8 @@ export default function App() {
   return (
     <div className="container">
       <h1>Strava Activity Dashboard</h1>
-      <a href="http://localhost:5000/api/auth" className="button">
+
+      <a href={`${BACKEND_URL}/api/auth`} className="button">
         Log in with Strava
       </a>
 
