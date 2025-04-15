@@ -19,7 +19,7 @@ router.get('/callback', async (req, res) => {
     });
 
     accessToken = tokenRes.data.access_token;
-    res.redirect('http://localhost:5173'); // Frontend dev server
+    res.redirect('https://app-hill.vercel.app'); // Frontend dev server
   } catch (e) {
     res.status(500).send('Auth failed');
   }
